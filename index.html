@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>draft calc</title>
+  <!-- <script src="calc.js"></script> -->
+  <link rel="stylesheet" href="style.css">
+  <script src="jQuery.js"></script>
+</head>
+<body>
+
+
+
+<div class="main">
+  <div class="screen"></div>
+  <div class="row">
+    <div class="button brdr reset">C</div>
+    <div class="button brdr ">+/-</div>
+    <div class="button brdr ">%</div>
+    <div class="button brdr opr">/</div>
+  </div>
+  <div class="row">
+    <div class="button brdr number">7</div>
+    <div class="button brdr number">8</div>
+    <div class="button brdr number">9</div>
+    <div class="button brdr opr">x</div>
+  </div>
+  <div class="row">
+    <div class="button brdr number">4</div>
+    <div class="button brdr number">5</div>
+    <div class="button brdr number">6</div>
+    <div class="button brdr opr">+</div>
+  </div>
+  <div class="row">
+    <div class="button brdr number">1</div>
+    <div class="button brdr number">2</div>
+    <div class="button brdr number">3</div>
+    <div class="button brdr opr">-</div>
+  </div>
+  <div class="row last">
+    <div class="button large zero">0</div>
+    <div class="button mid zero"></div>
+    <div class="button mid2 number">.</div>
+    <div class="button end opr">=</div>
+  </div>
+</div>
+
+<script>
+
+var array = [];
+var newArray = [];
+var calculation = {};
+var objectValue = 0;
+
+$('.number').on('click',function(){
+  var temp = $(this).closest('div').text()
+  array.push(temp)
+  console.log("number")
+  $( ".screen" ).html(array);
+  console.log(temp)
+});
+
+$('.zero').on('click',function(){
+  array.push("0")
+  $( ".screen" ).html(array);
+});
+
+$('.reset').on('click',function(){
+  location.reload();
+});
+
+$('.opr').on('click',function(){
+  var temp = $(this).closest('div').text()
+  console.log("operator")
+  console.log(temp)
+
+  if(temp !== "="){
+    var opr = temp;
+    console.log(opr)
+    var numberToSave = parseInt($('.screen').html())
+    objectValue ++;
+    calculation[objectValue] = numberToSave;
+    objectValue ++;
+    calculation[objectValue] = opr;
+    array = [];
+    $( "#screen" ).html(array);
+  } else {
+    console.log("eqauls")
+    var numberToSave = parseInt($('.screen').html());
+    objectValue ++;
+    calculation[objectValue] = numberToSave;
+    makeCalc();
+    makeArray();
+  }
+});
+
+
+
+var num1, num2, num3, oper, oper2, tally, tally2;
+function makeCalc(){
+
+  for(var i in calculation){
+    if(typeof calculation[i] === "number"){
+        if(!num1) { num1 = calculation[i];}
+        else if (!num2) { num2 = calculation[i]; calc1();}
+        else { num3 = calculation[i]; calc2();}
+    } else {
+        if(!oper) {oper = calculation[i]}
+        else {oper2 = calculation[i]; console.log(oper2)}
+    }
+  } // end of object loop
+}; //end of makeCalcArray function
+
+function calc1(){
+  console.log(oper)
+  tally = mathFunctions[oper](num1, num2)
+  console.log(tally)
+  $( ".screen" ).html(tally);
+}
+
+function calc2(){
+  tally2 = mathFunctions[oper2](tally, num3);
+  tally = tally2
+  console.log("calc 2 = ", tally)
+  $( ".screen" ).html(tally);
+}
+
+var mathFunctions = {
+  '+':function(x,y){
+    return x + y;
+  },
+  '-':function(x,y){
+    return x - y;
+  },
+  'x':function(x,y){
+    return x * y;
+  },
+  '/':function(x,y){
+    return x / y;
+  }
+};
+
+  document.onkeydown = function(keyboardEvent) {
+    console.log(keyboardEvent.keyCode)
+    switch(keyboardEvent.keyCode){
+      case 13:
+
+      case 48:
+              var number = 0;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break;
+      case 49:
+              var number = 1;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break;
+      case 50:
+              var number = 2;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break;
+      case 51:
+              var number = 3;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break
+      case 52:
+              var number = 4;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break
+      case 53:
+              var number = 5;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break
+      case 54:
+              var number = 6;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break;
+      case 55:
+              var number = 7;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break
+      case 56:
+              var number = 8;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break
+      case 57:
+              var number = 9;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break;
+      case 58:
+              var number = 9;
+              array.push(number)
+              $( ".screen" ).html(array);
+              break
+    }
+  }
+
+function makeArray(){
+    var array =[];
+    for(var i in calculation){ array.push(calculation[i]); }
+    console.log(array)
+  };
+
+
+function mouseDown(){
+  console.log("mouse Down")
+  $("button")
+};
+function mouseUp(){
+  console.log("mouse up")
+};
+
+
+$( ".button" ).mousedown(function() {
+  $('.screen').css("color", "darkgrey")
+  $(this).addClass('backchange');
+});
+$( ".button" ).mouseup(function() {
+  $('.screen').css("color", "white")
+  $(this).removeClass('backchange');
+});
+
+</script>
+
+</body>
+</html>
